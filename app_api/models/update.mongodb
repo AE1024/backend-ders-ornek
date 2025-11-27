@@ -5,8 +5,8 @@ db.venues.updateOne({"name":"Barida Cam Kafe"},
     {
       "_id": ObjectId(),
       "author": "Anıl",
-      "rating": 7,
-      "text": "Kahveler harika",
+      "rating": 7.5,
+      "text": "Kahveler gerçekten çok güzel ve ortam harika!",
       "date": new Date()
     }
   }
