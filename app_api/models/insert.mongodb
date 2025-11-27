@@ -1,0 +1,173 @@
+const database = 'mekanbul';
+use(database);
+db.venues.insertOne(
+{
+  "name": "Barida Cam Kafe",
+  "address": "Süleyman Demirel Üniversitesi",
+  "rating": 5,
+  "foodanddrink": [
+    "çay",
+    "kahve",
+    "pasta"
+  ],
+  "coordinates": [
+    37.83226584629666,
+    30.524732239878013
+  ],
+  "hours": [
+    {
+      "days": "Pazartesi-Cuma",
+      "open": "9:00",
+      "close": "23:00",
+      "isClosed": false
+    },
+    {
+      "days": "Cumartesi-Pazar",
+      "open": "11:00",
+      "close": "17:00",
+      "isClosed": false
+    }
+  ]
+}
+ );
+
+ db.venues.insertOne({
+  "name": "Starbucks",
+  "address": "Centrum Garden AVM",
+  "rating": 4,
+  "foodanddrink": [
+    "kahve",
+    "kek",
+    "sandviç"
+  ],
+  "coordinates": [
+    37.7833,
+    30.5500
+  ],
+  "hours": [
+    {
+      "days": "Pazartesi-Cuma",
+      "open": "10:00",
+      "close": "22:00",
+      "isClosed": false
+    },
+    {
+      "days": "Cumartesi-Pazar",
+      "open": "10:00",
+      "close": "23:00",
+      "isClosed": false
+    }
+  ]
+});
+
+// 2. Veri: Köfteci Yusuf (Yemek ağırlıklı)
+db.venues.insertOne({
+  "name": "Köfteci Yusuf",
+  "address": "Iyaş Park AVM",
+  "rating": 5,
+  "foodanddrink": [
+    "köfte",
+    "piyaz",
+    "ayran"
+  ],
+  "coordinates": [
+    37.7950,
+    30.5600
+  ],
+  "hours": [
+    {
+      "days": "Pazartesi-Pazar",
+      "open": "11:00",
+      "close": "23:00",
+      "isClosed": false
+    }
+  ]
+});
+
+// 3. Veri: Gloria Jean's (Kampüs yakını örnek)
+db.venues.insertOne({
+  "name": "Gloria Jean's Coffees",
+  "address": "SDÜ Doğu Kampüsü",
+  "rating": 3,
+  "foodanddrink": [
+    "kahve",
+    "pasta",
+    "soğuk içecekler"
+  ],
+  "coordinates": [
+    37.8300,
+    30.5260
+  ],
+  "hours": [
+    {
+      "days": "Pazartesi-Cuma",
+      "open": "8:00",
+      "close": "23:00",
+      "isClosed": false
+    },
+    {
+      "days": "Cumartesi-Pazar",
+      "open": "10:00",
+      "close": "21:00",
+      "isClosed": false
+    }
+  ]
+});
+
+// 4. Veri: Simit Sarayı (Kahvaltı/Atıştırmalık)
+db.venues.insertOne({
+  "name": "Simit Sarayı",
+  "address": "Çarşı Merkez",
+  "rating": 4,
+  "foodanddrink": [
+    "çay",
+    "simit",
+    "tost"
+  ],
+  "coordinates": [
+    37.7680,
+    30.5550
+  ],
+  "hours": [
+    {
+      "days": "Pazartesi-Cumartesi",
+      "open": "7:00",
+      "close": "20:00",
+      "isClosed": false
+    },
+    {
+      "days": "Pazar",
+      "open": "9:00",
+      "close": "18:00",
+      "isClosed": false
+    }
+  ]
+});
+
+// 5. Veri: Kütüphane Kafe (Ders çalışma mekanı)
+db.venues.insertOne({
+  "name": "Kütüphane Kafe",
+  "address": "SDÜ Batı Kampüsü",
+  "rating": 2,
+  "foodanddrink": [
+    "filtre kahve",
+    "su",
+    "kraker"
+  ],
+  "coordinates": [
+    37.8350,
+    30.5200
+  ],
+  "hours": [
+    {
+      "days": "Pazartesi-Cuma",
+      "open": "08:30",
+      "close": "17:30",
+      "isClosed": false
+    },
+    {
+      "days": "Hafta Sonu",
+      "isClosed": true
+    }
+  ]
+});
