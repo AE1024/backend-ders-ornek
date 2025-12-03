@@ -24,4 +24,4 @@ var venue = new mongoose.Schema({
     hours: [hour], 
     comments: [comment]
 });
-mongoose.model('venue', venue,"venues");
+mongoose.model('venue', venue,"venues");//venues koleksiyonu ismi , "venue" venu şemasının ismi
