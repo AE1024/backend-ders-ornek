@@ -13,8 +13,16 @@ const addVenue = function(req,res){
     createResponse(res, 200, {"status" : "basarılı"});
 }
 
-const getVenue = function(req,res){
-    createResponse(res, 200, {"status" : "basarılı"});
+const getVenue =async function(req,res){
+    try{
+        await Venue.findById(req.params.venueid).exec().then(function(venue){
+            createResponse(res, 200, venue);
+        });
+
+    }catch(err){
+        createResponse(res, 404, {"status" : "mekan bulunamadı"});
+    }
+    //createResponse(res, 200, {"status" : "venu basarılı"});
 }
 
 const updateVenue = function(req,res){
