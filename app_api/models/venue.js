@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 
 var hour = new mongoose.Schema({
     day : {type: String, required:true},
-    open : {type: Number, required:true},
-    close : {type: Number, required:true},
+    open : {type: String, required:true},
+    close : {type: String, required:true},
     isClosed : {type: Boolean, required:true}
 
 });

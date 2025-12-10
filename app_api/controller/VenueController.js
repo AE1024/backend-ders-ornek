@@ -53,9 +53,27 @@ const listVenues = function (req, res) {
     }
 };
 
-const addVenue = function (req, res) {
-    createResponse(res, 200, { status: "başarılı" });
-}
+const addVenue = async function (req, res) {
+    try {
+        await Venue.create({...req.body,
+            coordinates: [req.body.lat, req.body.long],
+            hours :[{
+                day: req.body.day1,
+                open: req.body.open1,
+                close: req.body.close1,
+                isClosed: req.body.isClosed1
+            },{
+                day: req.body.day2,
+                open: req.body.open2,
+                close: req.body.close2,
+                isClosed: req.body.isClosed2
+            }]}).then(function(venue){
+                createResponse(res, 201,venue);
+            })        
+    } catch (error) {
+        createResponse(res, 400, error);
+    }
+};
 
 const getVenue = async function (req, res) {
     try {
