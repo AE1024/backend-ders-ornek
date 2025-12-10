@@ -5,8 +5,18 @@ const createResponse = function(res,status,content){
     res.status(status).json(content);
 }
 
-const listVenues = function(req,res){
-    createResponse(res, 200, {"status" : "basarılı"});
+const listVenues = async function(req,res){
+    try {
+        Venue.find().exec().then(function(venues){
+            createResponse(res, 200, venues);
+        });
+        //Venue.find().select("rating").exec().then(function(venues){ //sadece rating alanını getir
+        //    createResponse(res, 200, venues);
+        //})
+    } catch (error) {
+        createResponse(res, 404, {"status" : "mekan bulunamadı"});
+
+    }
 }
 
 const addVenue = function(req,res){
