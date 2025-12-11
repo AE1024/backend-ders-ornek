@@ -4,6 +4,7 @@ var Venue = mongoose.model("venue");
 const createResponse = function (res, status, content) {
     res.status(status).json(content);
 }
+//odev
 const addComment = function (req, res) {
     createResponse(res, 200, { status: "başarılı" });
 }
