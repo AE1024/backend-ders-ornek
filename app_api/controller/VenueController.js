@@ -88,13 +88,46 @@ const getVenue = async function (req, res) {
     //createResponse(res,200,{status:"getvenue başarılı"});
 }
 
-const updateVenue = function (req, res) {
-    createResponse(res, 200, { status: "update başarılı" });
-}
+const updateVenue = async function (req, res) {
+  try {
+    const updatedVenue = await Venue.findByIdAndUpdate(
+      req.params.venueid,
+      {
+        ...req.body,
+        coordinates: [req.body.lat, req.body.long],
+        hours: [
+          {
+            days: req.body.day1,
+            open: req.body.open1,
+            close: req.body.close1,
+            isClosed: req.body.isClosed1,
+          },
+          {
+            days: req.body.day2,
+            open: req.body.open2,
+            close: req.body.close2,
+            isClosed: req.body.isClosed2,
+          },
+        ],
+      },
+      { new: true }
+    );
 
-const deleteVenue = function (req, res) {
-    createResponse(res, 200, { status: "başarılı" });
-}
+    createResponse(res, 201, updatedVenue);
+  } catch (error) {
+    createResponse(res, 400, { status: "Güncelleme başarısız.", error });
+  }
+};
+
+const deleteVenue = async function (req, res) {
+  try {
+    await Venue.findByIdAndDelete(req.params.venueid).then(function (venue) {
+      createResponse(res, 200, { status: venue.name + " isimli mekan Silindi" });
+    });
+  } catch (error) {
+    createResponse(res, 404, { status: "Böyle bir mekan yok!" });
+  }
+};
 
 module.exports = {
     listVenues,
