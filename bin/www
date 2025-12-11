@@ -3,10 +3,9 @@
 /**
  * Module dependencies.
  */
-require('dotenv').config({ path: require('path').resolve(__dirname, '../.env') });
 
 var app = require('../app');
-var debug = require('debug')('backend-ders-ornek:server');
+var debug = require('debug')('backend:server');
 var http = require('http');
 
 /**
