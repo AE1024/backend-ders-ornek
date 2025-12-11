@@ -1,11 +1,10 @@
-const dotenv = require('dotenv');
-const path = require('path');
-
-// .env dosyasını yükle
-dotenv.config({ path: path.join(__dirname, '.env') });
 var express = require('express');
+var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
+// .env dosyasını yükle
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -19,6 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use("/api", apiRoute);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
