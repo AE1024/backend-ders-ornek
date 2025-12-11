@@ -1,5 +1,9 @@
+const dotenv = require('dotenv');
+const path = require('path');
+
+// .env dosyasını yükle
+dotenv.config({ path: path.join(__dirname, '.env') });
 var express = require('express');
-var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
