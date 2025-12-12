@@ -26,7 +26,7 @@ const listVenues = function (req, res) {
     var geoOptions = {
         distanceField: "distance", spherical: true,
         maxDistance: converter.radian2Kilometer(100)
-    };
+};
     try {
         Venue.aggregate([
             {
@@ -87,12 +87,10 @@ const getVenue = async function (req, res) {
         await Venue.findById(req.params.venueid).exec().then(function (venue) {
             createResponse(res, 200, venue);
         });
-
     }
     catch (err) {
         createResponse(res, 404, { status: "böyle bir mekan yok" });
     }
-    //createResponse(res,200,{status:"getvenue başarılı"});
 }
 
 const updateVenue = async function (req, res) {
