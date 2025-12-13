@@ -1,96 +1,75 @@
-# Express.js Tabanlı Mekan Yönetim API
+## Express Js Altyapılı Backend Uygulaması
+ Canlı URL: [https://backend-odev-chi.vercel.app/]
 
-Bu proje, mekanların (restoran, kafe vb.) listelenmesi, yönetilmesi ve kullanıcı yorumlarının işlenmesi amacıyla geliştirilmiş bir RESTful API servisidir. Node.js ve Express.js altyapısı kullanılarak oluşturulmuş ve MongoDB veritabanı ile entegre edilmiştir.
+###  ⚙️ Kurulum
+Uygulamayı yerel olarak çalıştırmak için aşağıdaki adımları izleyin.
 
-🔗 **Canlı Demo (Live URL):** [https://backend-odev-chi.vercel.app/](https://backend-odev-chi.vercel.app/)
+Ön Koşullar
+Node.js (Tavsiye edilen LTS sürümü)
 
----
+npm veya yarn
 
-## 🛠️ Kurulum ve Çalıştırma
+Adımlar
+Depoyu klonlayın:
 
-Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyebilirsiniz.
 
-### Ön Koşullar
-* **Node.js** (LTS sürümü önerilir)
-* **MongoDB** (Yerel veya Atlas URI)
+     git clone [https://github.com/KULLANICI_ADINIZ/REPO_ADINIZ]
+     cd backend
 
-### Adımlar
+Bağımlılıkları yükleyin:
 
-1.  **Projeyi Klonlayın:**
-    ```bash
-    git clone [https://github.com/KULLANICI_ADINIZ/REPO_ADINIZ.git](https://github.com/KULLANICI_ADINIZ/REPO_ADINIZ.git)
-    cd REPO_ADINIZ
-    ```
 
-2.  **Bağımlılıkları Yükleyin:**
-    ```bash
-    npm install
-    # veya
-    yarn install
-    ```
+     npm install
+# veya
+     yarn install
 
-3.  **Çevresel Değişkenleri (.env) Ayarlayın:**
-    Proje kök dizininde `.env` adında bir dosya oluşturun ve aşağıdaki değişkenleri kendi bilgilerinizle doldurun:
-    ```env
+Ortam değişkenlerini ayarlayın. Proje kök dizinine .env adında bir dosya oluşturun ve gerekli değişkenleri ekleyin (örneğin, API anahtarları veya veritabanı bağlantı dizeleri):
+
+# Örnek .env içeriği
     PORT=3000
-    MONGODB_URI=mongodb+srv://<kullanici>:<sifre>@cluster.mongodb.net/veritabani
-    ```
+    API_KEY=your_external_service_api_key
+    MONGODB_URI=your_external_mongodb_uri
 
-4.  **Uygulamayı Başlatın:**
-    ```bash
-    npm start
-    # veya geliştirme modu için (nodemon varsa)
-    npm run dev
-    ```
 
----
+ ### Api
+ - Mekan Gösterme:      
+          GET /api/venues/:venueid
+ - Mekan Ekleme:        
+          POST /api/venues
+ - Yakındaki mekanları listeleme:      
+          GET /api/venues
+ - Mekan Güncelleme:        
+          PUT /api/venues/:venueid
+ - Mekan Silme:   
+          DELETE /api/venues/:venueid
 
-## 📡 API Dokümantasyonu
+ - Yorum Gösterme:  
+          GET /api/venues/:venueid/comments/:commentid
+ - Yorum Ekleme:   
+          POST /api/venues/:venueid/comments 
+ - Yorum Güncelleme:    
+          PUT /api/venues/:venueid/comments/:commentid
+ - Yorum Silme:    
+          DELETE /api/venues/:venueid/comments/:commentid
 
-Uygulama aşağıdaki HTTP isteklerini desteklemektedir:
 
-### 📍 Mekan İşlemleri (Venues)
 
-| Metot | Uç Nokta (Endpoint) | Açıklama | Parametreler |
-| :--- | :--- | :--- | :--- |
-| **GET** | `/api/venues` | Yakındaki mekanları listeler | `?lat={enlem}&long={boylam}` |
-| **POST** | `/api/venues` | Yeni bir mekan ekler | Body: `name`, `address`, `lat`, `long` vb. |
-| **GET** | `/api/venues/:venueid` | Tek bir mekanı getirir | `venueid`: Mekan ID'si |
-| **PUT** | `/api/venues/:venueid` | Mekan bilgilerini günceller | Body: Güncellenecek veriler |
-| **DELETE**| `/api/venues/:venueid` | Mekanı siler | `venueid`: Mekan ID'si |
+ ## Postman test ekran görüntüleri
 
-### 💬 Yorum İşlemleri (Comments)
+ ![alt text](tests/addComment.png)
 
-| Metot | Uç Nokta (Endpoint) | Açıklama |
-| :--- | :--- | :--- |
-| **POST** | `/api/venues/:venueid/comments` | Mekana yeni yorum ekler |
-| **GET** | `/api/venues/:venueid/comments/:commentid` | Tek bir yorumu getirir |
-| **PUT** | `/api/venues/:venueid/comments/:commentid` | Yorumu günceller |
-| **DELETE**| `/api/venues/:venueid/comments/:commentid` | Yorumu siler |
+ ![alt text](tests/addVenue.png)
 
----
+ ![alt text](tests/deleteComment.png)
 
-## 📸 Postman Test Ekran Görüntüleri
+ ![alt text](tests/deleteVenue.png)
 
-API'nin çalıştığını doğrulayan test sonuçları aşağıdadır:
+ ![alt text](tests/getComment.png)
 
-### Mekan (Venue) Testleri
+ ![alt text](tests/getVenue.png)
 
-| İşlem | Ekran Görüntüsü |
-| :--- | :--- |
-| **Yakındaki Mekanları Listeleme** | ![ListByNearVenues](screenshots/ListByNearVenues.png) |
-| **Mekan Ekleme** | ![AddVenue](screenshots/addVenue.png) |
-| **Mekan Getirme** | ![GetVenue](screenshots/getVenue.png) |
-| **Mekan Güncelleme** | ![UpdateVenue](screenshots/updateVenue.png) |
-| **Mekan Silme** | ![DeleteVenue](screenshots/deleteVenue.png) |
+ ![alt text](tests/ListByNearVenues.png)
 
-### Yorum (Comment) Testleri
+ ![alt text](tests/updateComment.png)
 
-| İşlem | Ekran Görüntüsü |
-| :--- | :--- |
-| **Yorum Ekleme** | ![AddComment](screenshots/addComment.png) |
-| **Yorum Getirme** | ![GetComment](screenshots/getComment.png) |
-| **Yorum Güncelleme** | ![UpdateComment](screenshots/updateComment.png) |
-| **Yorum Silme** | ![DeleteComment](screenshots/deleteComment.png) |
-
----
+ ![alt text](tests/updateVenue.png)
