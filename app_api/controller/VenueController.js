@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Venue = mongoose.model("venue");
 
 const createResponse = function (res, status, content) {
-    res.status(status).json(content);
+    res.status(Number(status)).json(content);
 }
 
 var converter = (function () {
@@ -44,12 +44,12 @@ const listVenues = function (req, res) {
                     };
                 });
                 if (venues.length > 0)
-                    createResponse(res, "200", venues);
+                    createResponse(res, 200, venues);
                 else
-                    createResponse(res, "200", { "status": "Civarda mekan yok" });
+                    createResponse(res, 200, { "status": "Civarda mekan yok" });
             })
     } catch (error) {
-        createResponse(res, "404", error);
+        createResponse(res, 404, error);
     }
 };
 
@@ -71,11 +71,11 @@ const addVenue = async function (req, res) {
                 , isClosed: req.body.isClosed2
             }]
         }).then(function (venue) { 
-        createResponse(res, "201", venue);
+        createResponse(res, 201, venue);
     });
     }
     catch (error) {
-        createResponse(res, "400", error);
+        createResponse(res, 400, error);
     }
 
 }

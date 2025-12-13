@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Venue = mongoose.model("venue");
 
 const createResponse = function (res, status, content) {
-    res.status(status).json(content);
+    res.status(Number(status)).json(content);
 }
 const addComment = async function (req, res) {
     try {
@@ -20,7 +20,7 @@ const getComment = async function (req, res) {
 
             var response, comment;
             if (!venue) {
-                createResponse(res, "404", "Mekanid yanlış");
+                createResponse(res, 404, "Mekanid yanlış");
             } else if (venue.comments.id(req.params.commentid)) {
                 comment = venue.comments.id(req.params.commentid);
 
@@ -31,14 +31,14 @@ const getComment = async function (req, res) {
                     },
                     comment: comment
                 }
-                createResponse(res, "200", response);
+                createResponse(res, 200, response);
             } else {
 
-                createResponse(res, "404", "Yorum id yanlış");
+                createResponse(res, 404, "Yorum id yanlış");
             }
         });
     } catch (error) {
-        createResponse(res, "404", "Mekan bulunamadı");
+        createResponse(res, 404, "Mekan bulunamadı");
     }
 };
 
@@ -116,11 +116,11 @@ var createComment = function (req, res, incomingVenue) {
             var comments = venue.comments;
             var comments = comments[comments - 1];
             updateRating(venue._id, false);
-            createResponse(res, "201", comments);
+            createResponse(res, 201, comments);
         })
     }
     catch (error) {
-        createResponse(res, "400", error)
+        createResponse(res, 400, error)
     }
 }
 
