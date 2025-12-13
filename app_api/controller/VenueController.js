@@ -1,4 +1,3 @@
-
 var mongoose = require('mongoose');
 var Venue = mongoose.model("venue");
 
@@ -26,7 +25,7 @@ const listVenues = function (req, res) {
     var geoOptions = {
         distanceField: "distance", spherical: true,
         maxDistance: converter.radian2Kilometer(100)
-};
+    };
     try {
         Venue.aggregate([
             {
@@ -55,84 +54,82 @@ const listVenues = function (req, res) {
 };
 
 const addVenue = async function (req, res) {
-  try {
-    await Venue.create({
-      ...req.body,
-      coordinates: [req.body.lat, req.body.long],
-      hours: [
-        {
-          days: req.body.days1,
-          open: req.body.open1,
-          close: req.body.close1,
-          isClosed: req.body.isClosed1,
-        },
-        {
-          days: req.body.days2,
-          open: req.body.open2,
-          close: req.body.close2,
-          isClosed: req.body.isClosed2,
-        },
-      ],
-    })
-      .then(function (response) {
-        createResponse(res, "201", response);
-      });
-  } catch (error) {
-    createResponse(res, "400", error);
-  }
-};
+    try {
+        await Venue.create({
+            ...req.body,
+            coordinates: [req.body.lat, req.body.long],
+            hours: [{
+                day: req.body.day1,
+                open: req.body.open1,
+                close: req.body.close1,
+                isClosed: req.body.isClosed1
+            },
+            {
+                day: req.body.day2
+                , open: req.body.open2
+                , close: req.body.close2
+                , isClosed: req.body.isClosed2
+            }]
+        }).then(function (veune) {
+            createResponse(res, 200, { status: "başarılı" });
+        });
+    }
+    catch (error) {
+        createResponse(res, 400, error);
+    }
+
+}
 
 const getVenue = async function (req, res) {
     try {
         await Venue.findById(req.params.venueid).exec().then(function (venue) {
             createResponse(res, 200, venue);
         });
+
     }
     catch (err) {
         createResponse(res, 404, { status: "böyle bir mekan yok" });
     }
+
 }
 
 const updateVenue = async function (req, res) {
-  try {
-    const updatedVenue = await Venue.findByIdAndUpdate(
-      req.params.venueid,
-      {
-        ...req.body,
-        coordinates: [req.body.lat, req.body.long],
-        hours: [
-          {
-            days: req.body.day1,
-            open: req.body.open1,
-            close: req.body.close1,
-            isClosed: req.body.isClosed1,
-          },
-          {
-            days: req.body.day2,
-            open: req.body.open2,
-            close: req.body.close2,
-            isClosed: req.body.isClosed2,
-          },
-        ],
-      },
-      { new: true }
-    );
-
-    createResponse(res, 201, updatedVenue);
-  } catch (error) {
-    createResponse(res, 400, { status: "Güncelleme başarısız.", error });
-  }
-};
+    try {
+        const updatedVenue = await Venue.findByIdAndUpdate(
+            req.params.venueid,
+            {
+                ...req.body,
+                coordinates: [req.body.lat, req.body.long],
+                hours: [{
+                    day: req.body.day1,
+                    open: req.body.open1,
+                    close: req.body.close1,
+                    isClosed: req.body.isClosed1
+                },
+                {
+                    day: req.body.day2
+                    , open: req.body.open2
+                    , close: req.body.close2
+                    , isClosed: req.body.isClosed2
+                }]
+            },
+            { new: true }
+        );
+        createResponse(res, 200, { status: "update başarılı" });
+    } catch (error) {
+        createResponse(res, 400, { status: "update işlemi başarısız.", error });
+    }
+}
 
 const deleteVenue = async function (req, res) {
-  try {
-    await Venue.findByIdAndDelete(req.params.venueid).then(function (venue) {
-      createResponse(res, 200, { status: venue.name + " isimli mekan Silindi" });
-    });
-  } catch (error) {
-    createResponse(res, 404, { status: "Böyle bir mekan yok!" });
-  }
-};
+    try {
+        await Venue.findByIdAndDelete(req.params.venueid).then(function (venue) {
+            createResponse(res, 200, { status: venue.name + " adlı mekan silindi" });
+        })
+    } catch (error) {
+        createResponse(res, 404, { status: "Böyle bir mekan yok!" });
+    }
+}
 
 module.exports = {
     listVenues,

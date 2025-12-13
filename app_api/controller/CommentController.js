@@ -3,76 +3,27 @@ var Venue = mongoose.model("venue");
 
 const createResponse = function (res, status, content) {
     res.status(status).json(content);
-
 }
-var updateRating = function (venueid, isDeleted) {
-  Venue.findById(venueid)
-    .select("rating comments")
-    .exec()
-    .then(function (venue) {
-      calculateLastRating(venue, isDeleted);
-    });
-};
-
-var createComment = function (req, res, incomingVenue) {
-  try {
-    incomingVenue.comments.push(req.body);
-
-    incomingVenue.save().then(function (venue) {
-      var comments = venue.comments;
-      var comment = comments[comments.length - 1];
-      updateRating(venue._id, false);
-      createResponse(res, "201", comment);
-    });
-  } catch (error) {
-    createResponse(res, "400", error);
-  }
-};
-
-var calculateLastRating = function (incomingVenue, isDeleted) {
-  var i,
-    numComments,
-    avgRating,
-    sumRating = 0;
-  var numComments = incomingVenue.comments.length;
-  if (incomingVenue.comments) {
-    if (incomingVenue.comments.length == 0 && isDeleted) {
-      avgRating = 0;
-    } else {
-      for (i = 0; i < numComments; i++) {
-        sumRating = sumRating + incomingVenue.comments[i].rating;
-      }
-      avgRating = Math.ceil(sumRating / numComments);
-    }
-    incomingVenue.rating = avgRating;
-    incomingVenue.save();
-  }
-};
-
 const addComment = async function (req, res) {
-  try {
-    await Venue.findById(req.params.venueid)
-      .select("comments")
-      .exec()
-      .then((incomingVenue) => {
-        createComment(req, res, incomingVenue);
-      });
-  } catch (error) {
-    createResponse(res, 400, { status: "Yorum ekleme başarısız" });
-  }
-};
-
-
+    try {
+        await Venue.findById(req.params.venueid).select("comments").exec().then((incomingVenue) => {
+            createComment(req, res, incomingVenue);
+        })
+    } catch (error) {
+        createResponse(res, 400, { status: "Yorum ekleme başarısız!" });
+    }
+}
+// Koddaki hatalar kontrol edildi ve redeploy için taze commit için yazılmıştır.
 const getComment = async function (req, res) {
     try {
         await Venue.findById(req.params.venueid).select("name comments").exec().then(function (venue) {
-            
+
             var response, comment;
             if (!venue) {
                 createResponse(res, "404", "Mekanid yanlış");
             } else if (venue.comments.id(req.params.commentid)) {
                 comment = venue.comments.id(req.params.commentid);
-              
+
                 response = {
                     venue: {
                         name: venue.name,
@@ -82,7 +33,7 @@ const getComment = async function (req, res) {
                 }
                 createResponse(res, "200", response);
             } else {
-         
+
                 createResponse(res, "404", "Yorum id yanlış");
             }
         });
@@ -92,50 +43,86 @@ const getComment = async function (req, res) {
 };
 
 const updateComment = async function (req, res) {
-  try {
-    await Venue.findById(req.params.venueid)
-      .select("comments")
-      .exec()
-      .then(function (venue) {
-        try {
-          let comment = venue.comments.id(req.params.commentid);
-          comment.set(req.body);
-          venue.save().then(function () {
-            updateRating(venue._id, false);
-            createResponse(res, "201", comment);
-          });
-        } catch (error) {
-          createResponse(res, "400", error);
-        }
-      });
-  } catch (error) {
-    createResponse(res, "400", error);
-  }
-};
+    try {
+        await Venue.findById(req.params.venueid).select("comments").exec().then(function (venue) {
+            try {
+                let comment = venue.comments.id(req.params.commentid);
+                comment.set(req.body);
+                venue.save().then(function () {
+                    updateRating(venue._id, false);
+                    createResponse(res, 201, comment);
+                })
+            } catch (err) {
+                createResponse(res, 400, err);
+            }
+        })
+    } catch (error) {
+        createResponse(res, 400, error);
+    }
+}
 
 const deleteComment = async function (req, res) {
-  try {
-    await Venue.findById(req.params.venueid)
-      .select("comments")
-      .exec()
-      .then(function (venue) {
-        try {
-          let comment = venue.comments.id(req.params.commentid);
-          comment.deleteOne();
-          venue.save().then(function () {
-            updateRating(venue._id, true);
-            createResponse(res, "200", {
-              status: comment.author + " isimli kişinin yorumu silindi",
-            });
-          });
-        } catch (error) {
-          createResponse(res, "400", error);
+    try {
+        await Venue.findById(req.params.venueid).select("comments").exec().then(function (venue) {
+            try {
+                let comment = venue.comments.id(req.params.commentid);
+                comment.deleteOne();
+                venue.save().then(function () {
+                    updateRating(venue._id, true);
+                    createResponse(res, 200, { status: comment.author + " isimli kişinin yorumu silindi" });
+                })
+            } catch (error) {
+                createResponse(res, 400, error);
+            }
+        })
+    } catch (error) {
+        createResponse(res, 400, error);
+    }
+    createResponse(res, 200, { status: "başarılı" });
+}
+
+var calculateLastRating = function (incomingVenue, isDeleted) {
+    var i,
+        numComments,
+        averageRating,
+        sumRating
+
+    var numComments = incomingVenue.comments.length;
+    if (incomingVenue.comments) {
+        if (incomingVenue.comments.length == 0 && isDeleted) {
+            averageRating = 0;
         }
-      });
-  } catch (error) {
-    createResponse(res, "400", error);
-  }
+        else {
+            for (i = 0; i < numComments; i++) {
+                sumRating = sumRating + incomingVenue.comments[i].rating;
+            }
+            averageRating = Math.cell(sumRating / numComments);
+        }
+        incomingVenue.rating = averageRating;
+        incomingVenue.save();
+    }
 };
+
+var updateRating = function (isDeleted, venueid) {
+    Venue.findById(venueid).select("rating comments").exec().then(function (venue) {
+        calculateLastRating(venue, isDeleted);
+    });
+}
+
+var createComment = function (req, res, incomingVenue) {
+    try {
+        incomingVenue.comments.push(req.body);
+        incomingVenue.save().then(function (venue) {
+            var comments = venue.comments;
+            var comments = comments[comments - 1];
+            updateRating(venue._id, false);
+            createResponse(res, "201", comments);
+        })
+    }
+    catch (error) {
+        createResponse(res, "400", error)
+    }
+}
 
 module.exports = {
     addComment,
