@@ -1,12 +1,12 @@
 const database = 'mekanbul';
 use(database);
-db.venues.updateOne({"name":"Simit Sarayı"},
+db.venues.updateOne({"name":"Gloria Jean's Coffees"},
   {$push: {"comments": 
     {
       "_id": ObjectId(),
-      "author": "Berk",
-      "rating": 3.5,
-      "text": " simit iyi",
+      "author": "Mehmet",
+      "rating": 4,
+      "text": " kahveler cok iyiydi",
       "date": new Date()
     }
   }
