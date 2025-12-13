@@ -4,6 +4,20 @@ var Venue = mongoose.model("venue");
 const createResponse = function (res, status, content) {
     res.status(status).json(content);
 }
+var createComment = function (req, res, incomingVenue) {
+    try {
+        incomingVenue.comments.push(req.body);
+        incomingVenue.save().then(function (venue) {
+            var comments = venue.comments;
+            var comments = comments[comments - 1];
+            updateRating(venue._id, false);
+            createResponse(res, "201", comments);
+        })
+    }
+    catch (error) {
+        createResponse(res, "400", error)
+    }
+}
 const addComment = async function (req, res) {
     try {
         await Venue.findById(req.params.venueid).select("comments").exec().then((incomingVenue) => {
@@ -109,20 +123,7 @@ var updateRating = function (isDeleted, venueid) {
     });
 }
 
-var createComment = function (req, res, incomingVenue) {
-    try {
-        incomingVenue.comments.push(req.body);
-        incomingVenue.save().then(function (venue) {
-            var comments = venue.comments;
-            var comments = comments[comments - 1];
-            updateRating(venue._id, false);
-            createResponse(res, "201", comments);
-        })
-    }
-    catch (error) {
-        createResponse(res, "400", error)
-    }
-}
+
 
 module.exports = {
     addComment,
