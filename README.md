@@ -13,7 +13,7 @@ Adımlar
 Depoyu klonlayın:
 
 
-     git clone [https://github.com/KULLANICI_ADINIZ/REPO_ADINIZ]
+     git clone https://github.com/AE1024/backend-ders-ornek.git
      cd backend
 
 Bağımlılıkları yükleyin:
