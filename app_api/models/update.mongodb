@@ -5,8 +5,8 @@ db.venues.updateOne({"name":"Simit Sarayı"},
     {
       "_id": ObjectId(),
       "author": "Berk",
-      "rating": 9,
-      "text": " guzeldi simit",
+      "rating": 3.5,
+      "text": " simit iyi",
       "date": new Date()
     }
   }
