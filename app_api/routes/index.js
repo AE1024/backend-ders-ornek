@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
         delete: 'DELETE /api/venues/:venueid'
     },
     comments:{
-         add: 'POST /api/venues/:venueid/comments',
+        add: 'POST /api/venues/:venueid/comments',
         getOne: 'GET /api/venues/:venueid/comments/:commentid',
         update: 'PUT /api/venues/:venueid/comments/:commentid',
         delete: 'DELETE /api/venues/:venueid/comments/:commentid'
