@@ -70,9 +70,9 @@ const addVenue = async function (req, res) {
                 , close: req.body.close2
                 , isClosed: req.body.isClosed2
             }]
-        }).then(function (veune) {
-            createResponse(res, 200, { status: "başarılı" });
-        });
+        }).then(function (venue) { 
+     createResponse(res, 201, venue); 
+    });
     }
     catch (error) {
         createResponse(res, 400, error);
